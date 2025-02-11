@@ -6,7 +6,7 @@ Plaza is a platform for programmable derivatives built as a set of Solidity smar
 
 ![banner](image/image.png)
 
-- Website [https://testnet.plaza.finance/](https://testnet.plaza.finance/rewards/JL4590xVLSix)
+- Website [https://testnet.plaza.finance/](https://testnet.plaza.finance/rewards/VTJkH6OCBXIu)
 - Twitter [@plaza_finance](https://x.com/plaza_finance)
 
 ## Update 

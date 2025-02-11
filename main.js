@@ -3,7 +3,7 @@ import { readWallets, readProxyFile } from "./utils/script.js";
 import banner from "./utils/banner.js";
 import log from "./utils/logger.js";
 import performTransactions from './utils/transactions.js';
-import { mintNft, signMessage } from './contract.js';
+import { mintNft, signMessage,claimCoupon } from './contract.js';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 const reffCode = `bfc7b70e-66ad-4524-9bb6-733716c4da94`;
@@ -85,6 +85,18 @@ const fetchUserBalance = async (address, proxyUrl) => {
         return null;
     }
 };
+const fetchUserCoupon = async (address, proxyUrl) => {
+    const axiosInstance = createAxiosInstance(proxyUrl);
+    try {
+        const response = await axiosInstance.get(`/user/v1/coupons`, {
+            params: { user: address,networkId: 84532 },
+        });
+        return response.data;
+    } catch (error) {
+        log.error(`Error fetching balance: ${error.response?.data?.message || error.message}`);
+        return null;
+    }
+};
 const getSign = async (level, user, signature, proxyUrl) => {
     const axiosInstance = createAxiosInstance(proxyUrl);
     try {
@@ -153,7 +165,15 @@ const main = async () => {
                 const level = profile?.level || 0;
                 const points = profile?.points || 0;
                 log.info(`=== Address: ${wallet.address} | Level: ${level} | Points: ${points} ===`);
-
+                log.info(`=== check coupon ===`);
+                const couponClaimable = await fetchUserCoupon(wallet.address, proxy);
+                if(couponClaimable[0]["shares"]!=0){
+                    const couponResult = await claimCoupon(wallet.privateKey);
+                    log.info(`=== couponResult ${couponResult} ===`);
+                    
+                }else{
+                    log.info(`=== no coupon ===`);
+                }
                 log.info(`=== Checking NFT Rewards ===`);
                 await claimNftReward({
                     points,

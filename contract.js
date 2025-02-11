@@ -51,3 +51,33 @@ export const mintNft = async (privateKey, signature) => {
         return null;
     }
 };
+
+const provider_base = new ethers.JsonRpcProvider("https://sepolia.base.org");
+const couponabi = [
+    {
+        "inputs": [],
+        "name": "claim",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+];
+
+export const claimCoupon = async (privateKey) => {
+    const wallet = new ethers.Wallet(privateKey, provider_base);
+    const contract = new ethers.Contract("0xb01866F195533dE16EB929b73f87280693CA0cB4", couponabi, wallet);
+
+    try {
+        const transaction = await contract.claim({
+            gasLimit: 300000,
+        });
+        console.log("Claim transaction sent. Waiting for confirmation...");
+
+        await transaction.wait();
+        console.log(`Coupon claimed successfully, hash: https://sepolia.basescan.org/tx/${transaction.hash}`);
+        return transaction.hash;
+    } catch (error) {
+        console.error("Error interacting with the contract:", error);
+        return null;
+    }
+};
