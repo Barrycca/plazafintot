@@ -10,6 +10,7 @@ Plaza is a platform for programmable derivatives built as a set of Solidity smar
 - Twitter [@plaza_finance](https://x.com/plaza_finance)
 
 ## Update 
+- update claim coupon features
 - for now we need to manually claim eth base sepolia testnet
 - claim faucet eth here https://www.alchemy.com/faucets/base-sepolia
 - distribute eth base sepolia to all wallets in wallets.json
@@ -23,6 +24,7 @@ Plaza is a platform for programmable derivatives built as a set of Solidity smar
 
 ## Features
 
+- **Auto Claim Coupon**
 - **Auto Daily Transaction**
 - **Auto Get Faucets**
 - **Auto Generate New Wallets**
